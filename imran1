@@ -1,0 +1,38 @@
+import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class ExtractSortPrint {
+    public static void main(String[] args) throws IOException {
+        // Read the file name from the command line
+        String fileName = args[0];
+
+        // Read the file line by line
+        ArrayList<String> values = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            boolean isHeader = true;
+            while ((line = br.readLine()) != null) {
+                // Skip the header line
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+                // Extract the last column
+                String[] parts = line.split("\t");
+                values.add(parts[parts.length - 1]);
+            }
+        }
+
+        // Sort the values
+        Collections.sort(values);
+
+        // Print the values
+        for (String value : values) {
+            System.out.println(value);
+        }
+    }
+}
